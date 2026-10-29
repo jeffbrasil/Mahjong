@@ -1,0 +1,12 @@
+{
+  "name": "mahjong-solitaire-pixel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mahjong Solitaire em pixel art, Canvas 2D puro.",
+  "scripts": {
+    "test": "node tests/rules.test.js",
+    "sprites": "python3 tools/slice_sprites.py",
+    "serve": "python3 -m http.server 8000"
+  }
+}

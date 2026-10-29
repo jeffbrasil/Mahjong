@@ -1,0 +1,722 @@
+{
+  "tile_wind_east": {
+    "x": 219,
+    "y": 847,
+    "w": 129,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_wind_east.png"
+  },
+  "tile_wind_south": {
+    "x": 411,
+    "y": 847,
+    "w": 129,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_wind_south.png"
+  },
+  "tile_wind_west": {
+    "x": 610,
+    "y": 847,
+    "w": 130,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_wind_west.png"
+  },
+  "tile_wind_north": {
+    "x": 810,
+    "y": 847,
+    "w": 143,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_wind_north.png"
+  },
+  "tile_dragon_red": {
+    "x": 1031,
+    "y": 847,
+    "w": 140,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_dragon_red.png"
+  },
+  "tile_dragon_green": {
+    "x": 1242,
+    "y": 847,
+    "w": 130,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_dragon_green.png"
+  },
+  "tile_dragon_white": {
+    "x": 1424,
+    "y": 847,
+    "w": 130,
+    "h": 183,
+    "source": "assets/raw/Flores.jpeg",
+    "file": "assets/sprites/tile_dragon_white.png"
+  },
+  "tile_char_1": {
+    "x": 32,
+    "y": 848,
+    "w": 127,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_1.png"
+  },
+  "tile_char_2": {
+    "x": 217,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_2.png"
+  },
+  "tile_char_3": {
+    "x": 407,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_3.png"
+  },
+  "tile_char_4": {
+    "x": 605,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_4.png"
+  },
+  "tile_char_5": {
+    "x": 809,
+    "y": 848,
+    "w": 144,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_5.png"
+  },
+  "tile_char_6": {
+    "x": 1031,
+    "y": 848,
+    "w": 140,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_6.png"
+  },
+  "tile_char_7": {
+    "x": 1242,
+    "y": 848,
+    "w": 131,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_7.png"
+  },
+  "tile_char_8": {
+    "x": 1424,
+    "y": 848,
+    "w": 131,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_8.png"
+  },
+  "tile_char_9": {
+    "x": 1607,
+    "y": 848,
+    "w": 130,
+    "h": 182,
+    "source": "assets/raw/ventos_e_dragoes.jpeg",
+    "file": "assets/sprites/tile_char_9.png"
+  },
+  "tile_bamboo_1": {
+    "x": 31,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_1.png"
+  },
+  "tile_bamboo_2": {
+    "x": 217,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_2.png"
+  },
+  "tile_bamboo_3": {
+    "x": 407,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_3.png"
+  },
+  "tile_bamboo_4": {
+    "x": 606,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_4.png"
+  },
+  "tile_bamboo_5": {
+    "x": 809,
+    "y": 848,
+    "w": 144,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_5.png"
+  },
+  "tile_bamboo_6": {
+    "x": 1031,
+    "y": 848,
+    "w": 140,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_6.png"
+  },
+  "tile_bamboo_7": {
+    "x": 1243,
+    "y": 848,
+    "w": 130,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_7.png"
+  },
+  "tile_bamboo_8": {
+    "x": 1424,
+    "y": 848,
+    "w": 130,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_8.png"
+  },
+  "tile_bamboo_9": {
+    "x": 1608,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/bambus.jpeg",
+    "file": "assets/sprites/tile_bamboo_9.png"
+  },
+  "tile_dot_1": {
+    "x": 31,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_1.png"
+  },
+  "tile_dot_2": {
+    "x": 217,
+    "y": 848,
+    "w": 128,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_2.png"
+  },
+  "tile_dot_3": {
+    "x": 406,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_3.png"
+  },
+  "tile_dot_4": {
+    "x": 605,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_4.png"
+  },
+  "tile_dot_5": {
+    "x": 810,
+    "y": 848,
+    "w": 143,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_5.png"
+  },
+  "tile_dot_6": {
+    "x": 1031,
+    "y": 848,
+    "w": 140,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_6.png"
+  },
+  "tile_dot_7": {
+    "x": 1242,
+    "y": 848,
+    "w": 131,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_7.png"
+  },
+  "tile_dot_8": {
+    "x": 1424,
+    "y": 848,
+    "w": 130,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_8.png"
+  },
+  "tile_dot_9": {
+    "x": 1607,
+    "y": 848,
+    "w": 129,
+    "h": 182,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/tile_dot_9.png"
+  },
+  "back_green": {
+    "x": 159,
+    "y": 128,
+    "w": 183,
+    "h": 271,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/back_green.png"
+  },
+  "back_blue": {
+    "x": 394,
+    "y": 128,
+    "w": 183,
+    "h": 271,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/back_blue.png"
+  },
+  "back_red": {
+    "x": 628,
+    "y": 128,
+    "w": 181,
+    "h": 271,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/back_red.png"
+  },
+  "locked_1": {
+    "x": 166,
+    "y": 479,
+    "w": 182,
+    "h": 239,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/locked_1.png"
+  },
+  "locked_2": {
+    "x": 399,
+    "y": 480,
+    "w": 183,
+    "h": 238,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/locked_2.png"
+  },
+  "locked_3": {
+    "x": 630,
+    "y": 480,
+    "w": 183,
+    "h": 238,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/locked_3.png"
+  },
+  "icon_lock": {
+    "x": 507,
+    "y": 479,
+    "w": 76,
+    "h": 93,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/icon_lock.png"
+  },
+  "frame_yellow": {
+    "x": 952,
+    "y": 486,
+    "w": 209,
+    "h": 256,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/frame_yellow.png"
+  },
+  "frame_blue": {
+    "x": 1194,
+    "y": 487,
+    "w": 208,
+    "h": 255,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/frame_blue.png"
+  },
+  "frame_green": {
+    "x": 1432,
+    "y": 486,
+    "w": 211,
+    "h": 253,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/frame_green.png"
+  },
+  "break_0": {
+    "x": 123,
+    "y": 1151,
+    "w": 172,
+    "h": 254,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/break_0.png"
+  },
+  "break_1": {
+    "x": 397,
+    "y": 1182,
+    "w": 213,
+    "h": 224,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/break_1.png"
+  },
+  "break_2": {
+    "x": 669,
+    "y": 1158,
+    "w": 300,
+    "h": 287,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/break_2.png"
+  },
+  "break_3": {
+    "x": 1054,
+    "y": 1206,
+    "w": 244,
+    "h": 181,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/break_3.png"
+  },
+  "fx_dust": {
+    "x": 133,
+    "y": 1578,
+    "w": 193,
+    "h": 247,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_dust.png"
+  },
+  "fx_stars_a": {
+    "x": 403,
+    "y": 1599,
+    "w": 199,
+    "h": 192,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_stars_a.png"
+  },
+  "fx_stars_b": {
+    "x": 695,
+    "y": 1597,
+    "w": 190,
+    "h": 189,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_stars_b.png"
+  },
+  "fx_sparkles": {
+    "x": 1020,
+    "y": 1622,
+    "w": 258,
+    "h": 183,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_sparkles.png"
+  },
+  "fx_shine": {
+    "x": 1453,
+    "y": 1598,
+    "w": 182,
+    "h": 196,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_shine.png"
+  },
+  "fx_glow": {
+    "x": 126,
+    "y": 1992,
+    "w": 172,
+    "h": 213,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/fx_glow.png"
+  },
+  "arrow_yellow_down": {
+    "x": 400,
+    "y": 1963,
+    "w": 106,
+    "h": 139,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/arrow_yellow_down.png"
+  },
+  "arrow_blue_down": {
+    "x": 578,
+    "y": 1988,
+    "w": 102,
+    "h": 140,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/arrow_blue_down.png"
+  },
+  "arrow_purple_right": {
+    "x": 414,
+    "y": 2144,
+    "w": 137,
+    "h": 99,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/arrow_purple_right.png"
+  },
+  "arrow_green_left": {
+    "x": 1076,
+    "y": 1982,
+    "w": 136,
+    "h": 98,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/arrow_green_left.png"
+  },
+  "arrow_red_left": {
+    "x": 1079,
+    "y": 2153,
+    "w": 136,
+    "h": 100,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/arrow_red_left.png"
+  },
+  "icon_check_a": {
+    "x": 1395,
+    "y": 2010,
+    "w": 91,
+    "h": 77,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/icon_check_a.png"
+  },
+  "icon_check_b": {
+    "x": 1394,
+    "y": 2153,
+    "w": 108,
+    "h": 86,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/icon_check_b.png"
+  },
+  "icon_x_a": {
+    "x": 1560,
+    "y": 2009,
+    "w": 84,
+    "h": 83,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/icon_x_a.png"
+  },
+  "icon_x_b": {
+    "x": 1572,
+    "y": 2155,
+    "w": 79,
+    "h": 85,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/icon_x_b.png"
+  },
+  "hint_frame": {
+    "x": 706,
+    "y": 1921,
+    "w": 332,
+    "h": 334,
+    "source": "assets/raw/animacoes.jpeg",
+    "file": "assets/sprites/hint_frame.png"
+  },
+  "ui_wood_corner_tl": {
+    "x": 28,
+    "y": 1778,
+    "w": 114,
+    "h": 121,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_corner_tl.png"
+  },
+  "ui_wood_edge_t": {
+    "x": 174,
+    "y": 1778,
+    "w": 355,
+    "h": 58,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_edge_t.png"
+  },
+  "ui_wood_corner_tr": {
+    "x": 560,
+    "y": 1778,
+    "w": 112,
+    "h": 121,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_corner_tr.png"
+  },
+  "ui_wood_edge_l": {
+    "x": 28,
+    "y": 1925,
+    "w": 50,
+    "h": 289,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_edge_l.png"
+  },
+  "ui_wood_edge_r": {
+    "x": 623,
+    "y": 1925,
+    "w": 49,
+    "h": 289,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_edge_r.png"
+  },
+  "ui_wood_corner_bl": {
+    "x": 28,
+    "y": 2239,
+    "w": 114,
+    "h": 114,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_corner_bl.png"
+  },
+  "ui_wood_edge_b": {
+    "x": 174,
+    "y": 2297,
+    "w": 355,
+    "h": 56,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_edge_b.png"
+  },
+  "ui_wood_corner_br": {
+    "x": 560,
+    "y": 2239,
+    "w": 112,
+    "h": 114,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wood_corner_br.png"
+  },
+  "ui_board": {
+    "x": 705,
+    "y": 1778,
+    "w": 570,
+    "h": 575,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_board.png"
+  },
+  "ui_wind_mini_east": {
+    "x": 1329,
+    "y": 1783,
+    "w": 87,
+    "h": 100,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wind_mini_east.png"
+  },
+  "ui_wind_mini_south": {
+    "x": 1442,
+    "y": 1782,
+    "w": 86,
+    "h": 101,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wind_mini_south.png"
+  },
+  "ui_wind_mini_west": {
+    "x": 1554,
+    "y": 1783,
+    "w": 87,
+    "h": 100,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wind_mini_west.png"
+  },
+  "ui_wind_mini_north": {
+    "x": 1666,
+    "y": 1783,
+    "w": 87,
+    "h": 100,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_wind_mini_north.png"
+  },
+  "ui_timebar": {
+    "x": 1300,
+    "y": 1907,
+    "w": 24,
+    "h": 223,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_timebar.png"
+  },
+  "ui_dice_6": {
+    "x": 1357,
+    "y": 1913,
+    "w": 78,
+    "h": 96,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_dice_6.png"
+  },
+  "ui_dice_3": {
+    "x": 1358,
+    "y": 2038,
+    "w": 77,
+    "h": 81,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_dice_3.png"
+  },
+  "ui_bell": {
+    "x": 1477,
+    "y": 1931,
+    "w": 63,
+    "h": 46,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_bell.png"
+  },
+  "ui_lamp": {
+    "x": 1479,
+    "y": 2004,
+    "w": 61,
+    "h": 110,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_lamp.png"
+  },
+  "ui_counter_a": {
+    "x": 1566,
+    "y": 1907,
+    "w": 178,
+    "h": 79,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_counter_a.png"
+  },
+  "ui_counter_b": {
+    "x": 1574,
+    "y": 2014,
+    "w": 169,
+    "h": 78,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_counter_b.png"
+  },
+  "ui_btn_play": {
+    "x": 1299,
+    "y": 2162,
+    "w": 83,
+    "h": 88,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_play.png"
+  },
+  "ui_btn_jogar": {
+    "x": 1394,
+    "y": 2162,
+    "w": 172,
+    "h": 88,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_jogar.png"
+  },
+  "ui_btn_menu_a": {
+    "x": 1582,
+    "y": 2162,
+    "w": 170,
+    "h": 88,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_menu_a.png"
+  },
+  "ui_btn_x": {
+    "x": 1299,
+    "y": 2262,
+    "w": 82,
+    "h": 87,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_x.png"
+  },
+  "ui_btn_sair": {
+    "x": 1394,
+    "y": 2262,
+    "w": 171,
+    "h": 87,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_sair.png"
+  },
+  "ui_btn_menu_b": {
+    "x": 1582,
+    "y": 2262,
+    "w": 171,
+    "h": 87,
+    "source": "assets/raw/dots.jpeg",
+    "file": "assets/sprites/ui_btn_menu_b.png"
+  }
+}
