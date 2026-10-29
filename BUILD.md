@@ -79,6 +79,6 @@ npx @capacitor/assets generate --android --assetPath resources \
 - ID: `com.jeffbrasil.mahjong`
 - Nome exibido: `Mahjong Solitaire`
 - Versão: `1.0.0` (`versionCode` 1)
-- Orientação: `sensorLandscape`
+- Orientação: `fullUser` (paisagem e retrato automáticos)
 - minSdk 24 / targetSdk 36
 - Tema sem barra de ações e em tela cheia
