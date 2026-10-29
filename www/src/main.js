@@ -23,9 +23,9 @@ let last = performance.now();
 let active = false;
 
 function fitCanvas() {
-  // usa a janela inteira: em 1920x1080 isso permite exatamente 2x sem blur
-  const availW = window.innerWidth;
-  const availH = window.innerHeight;
+  // usa a área visível do WebView; em telas grandes permite escala inteira
+  const availW = document.documentElement.clientWidth || window.innerWidth;
+  const availH = document.documentElement.clientHeight || window.innerHeight;
   const raw = Math.min(availW / LOGICAL_W, availH / LOGICAL_H);
   let scale;
   if (raw >= 1) {
@@ -35,12 +35,18 @@ function fitCanvas() {
     // telas pequenas (celular): reduz sem estourar; ainda sem interpolação
     scale = raw;
   }
-  const cssW = Math.floor(LOGICAL_W * scale);
-  const cssH = Math.floor(LOGICAL_H * scale);
+  const cssW = Math.max(1, Math.floor(LOGICAL_W * scale));
+  const cssH = Math.max(1, Math.floor(LOGICAL_H * scale));
   canvas.style.width = `${cssW}px`;
   canvas.style.height = `${cssH}px`;
   wrap.style.width = `${cssW}px`;
   wrap.style.height = `${cssH}px`;
+}
+
+function scheduleFit() {
+  fitCanvas();
+  requestAnimationFrame(fitCanvas);
+  setTimeout(fitCanvas, 150);
 }
 
 function toLogical(evt) {
@@ -81,10 +87,14 @@ function bindInput() {
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   window.addEventListener('keydown', (e) => {
     if (e.repeat) return;
+    audio.ensure();
     if (['ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(e.key)) e.preventDefault();
     game.keyDown(e.key);
   });
-  window.addEventListener('resize', fitCanvas);
+  window.addEventListener('resize', scheduleFit);
+  window.addEventListener('orientationchange', scheduleFit);
+  window.visualViewport?.addEventListener('resize', scheduleFit);
+  document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
   document.addEventListener('visibilitychange', () => {
     game.pausedByFocus = document.hidden;
   });
