@@ -17,6 +17,9 @@ keystore.properties
 # Backups locais
 backups/
 
+# Android SDK local (instalado dentro do projeto por restrição do ambiente)
+.android-sdk/
+
 # Sistema / IDE
 .DS_Store
 Thumbs.db
@@ -27,3 +30,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Android user home local
+.android-user-home/
