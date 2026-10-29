@@ -33,3 +33,10 @@ npm-debug.log*
 
 # Android user home local
 .android-user-home/
+
+# Gradle/Java locais
+.gradle-home/
+.java-home/
+
+# JDK local
+.jdk/

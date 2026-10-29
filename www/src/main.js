@@ -99,19 +99,30 @@ function bindInput() {
     game.pausedByFocus = document.hidden;
   });
 
-  document.addEventListener('backbutton', (e) => {
-    e.preventDefault();
-    
+  const onBack = (e) => {
+    e?.preventDefault?.();
+
     if (game.screen === 'playing') {
       // Se estiver jogando, abre o modal para confirmar a saída/menu
       game.openModal('confirm-menu');
     } else if (game.screen === 'menu') {
-      // Se estiver no menu principal, aciona o fechar app
+      // Se estiver no menu principal, mostra a tela de despedida
       game.leaveToGoodbye();
+    } else if (game.screen === 'goodbye') {
+      // Segundo toque no voltar encerra o app nativo
+      window.Capacitor?.Plugins?.App?.exitApp?.();
     } else {
       game.goMenu();
     }
-  }, false);
+  };
+
+  // Capacitor: o evento DOM "backbutton" do Cordova não existe; usamos o plugin App.
+  const appPlugin = window.Capacitor?.Plugins?.App;
+  if (appPlugin?.addListener) {
+    appPlugin.addListener('backButton', onBack);
+  } else {
+    document.addEventListener('backbutton', onBack, false);
+  }
 }
 
 async function boot() {

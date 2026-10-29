@@ -8,5 +8,30 @@
     "test": "node tests/rules.test.js",
     "sprites": "python3 tools/slice_sprites.py",
     "serve": "python3 -m http.server 8000"
+  },
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffbrasil/Mahjong.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeffbrasil/Mahjong/issues"
+  },
+  "homepage": "https://github.com/jeffbrasil/Mahjong#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/cli": "^8.6.0",
+    "@capacitor/core": "^8.6.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5"
   }
 }
