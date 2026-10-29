@@ -1,13 +1,14 @@
 /**
- * main.js — bootstrap, escala inteira do canvas, mouse/toque e loop.
+ * main.js — bootstrap responsivo, mouse/toque e loop.
+ * O canvas usa o tamanho real da tela em pixels CSS (com DPR no backing store).
  */
 
-import { LOGICAL_W, LOGICAL_H } from './config.js';
 import { Assets } from './assets.js';
 import { AudioManager } from './audio.js';
 import { Renderer } from './render.js';
 import { Game } from './game.js';
 import { LAYOUT_BY_ID } from './layouts.js';
+import { readSafeInsets } from './view.js';
 
 const canvas = document.getElementById('game');
 const wrap = document.getElementById('game-wrap');
@@ -21,39 +22,43 @@ window.__mahjong = game;
 
 let last = performance.now();
 let active = false;
+let fitTimer = null;
+let fitPending = false;
 
 function fitCanvas() {
-  // usa a área visível do WebView; em telas grandes permite escala inteira
-  const availW = document.documentElement.clientWidth || window.innerWidth;
-  const availH = document.documentElement.clientHeight || window.innerHeight;
-  const raw = Math.min(availW / LOGICAL_W, availH / LOGICAL_H);
-  let scale;
-  if (raw >= 1) {
-    // escala inteira: 1x, 2x, 3x...
-    scale = Math.max(1, Math.floor(raw));
-  } else {
-    // telas pequenas (celular): reduz sem estourar; ainda sem interpolação
-    scale = raw;
-  }
-  const cssW = Math.max(1, Math.floor(LOGICAL_W * scale));
-  const cssH = Math.max(1, Math.floor(LOGICAL_H * scale));
-  canvas.style.width = `${cssW}px`;
-  canvas.style.height = `${cssH}px`;
-  wrap.style.width = `${cssW}px`;
-  wrap.style.height = `${cssH}px`;
+  const w = document.documentElement.clientWidth || window.innerWidth;
+  const h = document.documentElement.clientHeight || window.innerHeight;
+  const dpr = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
+  const safe = readSafeInsets();
+  const sameSafe = renderer.view.safe.top === safe.top &&
+    renderer.view.safe.right === safe.right &&
+    renderer.view.safe.bottom === safe.bottom &&
+    renderer.view.safe.left === safe.left;
+  if (renderer.view.w === Math.round(w) &&
+      renderer.view.h === Math.round(h) &&
+      renderer.view.dpr === dpr &&
+      sameSafe) return;
+  wrap.style.width = '100vw';
+  wrap.style.height = '100vh';
+  renderer.setViewport(w, h, dpr);
 }
 
 function scheduleFit() {
-  fitCanvas();
-  requestAnimationFrame(fitCanvas);
-  setTimeout(fitCanvas, 150);
+  if (fitPending) return;
+  fitPending = true;
+  requestAnimationFrame(() => {
+    fitPending = false;
+    fitCanvas();
+  });
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitCanvas, 160);
 }
 
 function toLogical(evt) {
   const rect = canvas.getBoundingClientRect();
   return {
-    x: (evt.clientX - rect.left) * (LOGICAL_W / rect.width),
-    y: (evt.clientY - rect.top) * (LOGICAL_H / rect.height),
+    x: (evt.clientX - rect.left) * (renderer.view.w / rect.width),
+    y: (evt.clientY - rect.top) * (renderer.view.h / rect.height),
   };
 }
 
@@ -101,24 +106,12 @@ function bindInput() {
 
   const onBack = (e) => {
     e?.preventDefault?.();
-
-    if (game.screen === 'playing') {
-      // Se estiver jogando, abre o modal para confirmar a saída/menu
-      game.openModal('confirm-menu');
-    } else if (game.screen === 'menu') {
-      // Se estiver no menu principal, mostra a tela de despedida
-      game.leaveToGoodbye();
-    } else if (game.screen === 'goodbye') {
-      // Segundo toque no voltar encerra o app nativo
-      window.Capacitor?.Plugins?.App?.exitApp?.();
-    } else {
-      game.goMenu();
-    }
+    game.handleBack();
   };
 
-  // Capacitor: o evento DOM "backbutton" do Cordova não existe; usamos o plugin App.
+  const native = Boolean(window.Capacitor?.isNativePlatform?.());
   const appPlugin = window.Capacitor?.Plugins?.App;
-  if (appPlugin?.addListener) {
+  if (native && appPlugin?.addListener) {
     appPlugin.addListener('backButton', onBack);
   } else {
     document.addEventListener('backbutton', onBack, false);
@@ -128,12 +121,10 @@ function bindInput() {
 async function boot() {
   bindInput();
   fitCanvas();
-  renderer.resize(LOGICAL_W, LOGICAL_H);
-  fitCanvas();
   try {
     await assets.load();
     game.setScreenAfterLoad();
-    renderer.makeBackground();
+    fitCanvas();
     loading?.classList.add('hidden');
 
     // Suporte a partidas reproduzíveis:

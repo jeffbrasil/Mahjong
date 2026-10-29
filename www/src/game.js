@@ -3,12 +3,13 @@
  * As regras geométricas puras ficam em rules.js e a geração em generator.js.
  */
 
-import { TIME_LIMITS, SHUFFLE_LIMIT, TILE_W, TILE_H, BOARD_INNER } from './config.js';
+import { TIME_LIMITS, SHUFFLE_LIMIT } from './config.js';
 import { LAYOUTS, LAYOUT_BY_ID, DEFAULT_LAYOUT_ID } from './layouts.js';
-import { findFreePairs, freeTiles, isFree, makeOccupancy } from './rules.js';
+import { findFreePairs, isFree, makeOccupancy } from './rules.js';
 import { generateBoard, shuffleRemaining } from './generator.js';
 import {
-  hitMenu, hitHud, hitModal, hitEnd, hitGoodbye, MENU,
+  getMenuLayout, getModalLayout, getEndLayout,
+  hitMenu, hitHud, hitModal, hitEnd,
 } from './ui.js';
 
 const PREFS = {
@@ -17,7 +18,6 @@ const PREFS = {
 };
 
 const randSeed = () => (Math.floor(Math.random() * 0xffffffff) >>> 0);
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 export class Game {
   constructor({ assets, audio, renderer, canvas }) {
@@ -64,6 +64,7 @@ export class Game {
     this.starAcc = 0;
     this.boardRevision = 0;
     this.pausedByFocus = false;
+    this.pausedByModal = false;
     this.now = performance.now() / 1000;
   }
 
@@ -90,24 +91,31 @@ export class Game {
   updateHover(x, y) {
     this.hover = null;
     this.hoverTileId = null;
-    if (this.screen === 'menu' && !this.modal) {
-      this.hover = hitMenu(x, y);
-    } else if (this.screen === 'playing' && !this.modal) {
-      const hud = hitHud(x, y);
+    const view = this.renderer.view;
+
+    if (this.modal) {
+      this.hover = hitModal(getModalLayout(view, this.modal.kind), x, y);
+      return Boolean(this.hover);
+    }
+
+    if (this.screen === 'menu') {
+      this.hover = hitMenu(getMenuLayout(view), x, y);
+    } else if (this.screen === 'playing') {
+      const hud = hitHud(this.renderer.ui, x, y);
       if (hud) {
         this.hover = hud;
-      } else if (x >= BOARD_INNER.x && x <= BOARD_INNER.x + BOARD_INNER.w &&
-                 y >= BOARD_INNER.y && y <= BOARD_INNER.y + BOARD_INNER.h) {
-        const tile = this.renderer.tileAt(this, x, y);
-        if (tile) {
-          const occ = makeOccupancy(this.board.tiles);
-          if (!tile.removed && isFree(tile, occ)) this.hoverTileId = tile.id;
+      } else {
+        const b = this.renderer.boardInner;
+        if (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) {
+          const tile = this.renderer.tileAt(this, x, y);
+          if (tile) {
+            const occ = makeOccupancy(this.board.tiles);
+            if (!tile.removed && isFree(tile, occ)) this.hoverTileId = tile.id;
+          }
         }
       }
-    } else if (this.screen === 'end' && !this.modal) {
-      this.hover = hitEnd(x, y) ? { type: 'end' } : null;
-    } else if (this.screen === 'goodbye') {
-      this.hover = hitGoodbye(x, y) ? { type: 'goodbye' } : null;
+    } else if (this.screen === 'end') {
+      this.hover = hitEnd(getEndLayout(view), x, y);
     }
     return Boolean(this.hover || this.hoverTileId !== null);
   }
@@ -116,21 +124,21 @@ export class Game {
     this.audio.ensure();
     const now = performance.now() / 1000;
     this.now = now;
+    const view = this.renderer.view;
+
+    if (this.modal) {
+      const action = hitModal(getModalLayout(view, this.modal.kind), x, y);
+      if (action) this.handleModalAction(action);
+      return;
+    }
 
     if (this.screen === 'menu') {
-      const action = hitMenu(x, y);
+      const action = hitMenu(getMenuLayout(view), x, y);
       if (action) this.handleMenuAction(action);
       return;
     }
-    if (this.screen === 'goodbye') {
-      if (hitGoodbye(x, y)) {
-        this.audio.click();
-        this.goMenu();
-      }
-      return;
-    }
     if (this.screen === 'end') {
-      const action = hitEnd(x, y);
+      const action = hitEnd(getEndLayout(view), x, y);
       if (!action) return;
       this.audio.click();
       if (action.id === 'again') this.startGame(this.selectedLayoutId, randSeed());
@@ -139,27 +147,23 @@ export class Game {
     }
     if (this.screen !== 'playing') return;
 
-    if (this.modal) {
-      const action = hitModal(x, y, this.modal);
-      if (action) this.handleModalAction(action);
-      return;
-    }
-
     // durante a animação de quebra, evita jogadas acidentais no tabuleiro
     if (now < this.busyUntil) return;
 
-    const hudHit = hitHud(x, y);
+    const hudHit = hitHud(this.renderer.ui, x, y);
     if (hudHit) {
       if (hudHit.type === 'mute') {
         this.toggleMute();
-      } else {
+      } else if (hudHit.type === 'toggle-hud' || hudHit.type === 'reopen-hud') {
+        this.toggleHud();
+      } else if (hudHit.id) {
         this.handleHudAction(hudHit.id);
       }
       return;
     }
 
-    if (x < BOARD_INNER.x || x > BOARD_INNER.x + BOARD_INNER.w ||
-        y < BOARD_INNER.y || y > BOARD_INNER.y + BOARD_INNER.h) return;
+    const b = this.renderer.boardInner;
+    if (x < b.x || x > b.x + b.w || y < b.y || y > b.y + b.h) return;
 
     const tile = this.renderer.tileAt(this, x, y);
     if (!tile) {
@@ -183,7 +187,7 @@ export class Game {
     } else if (action.type === 'play') {
       this.startGame(this.selectedLayoutId, randSeed());
     } else if (action.type === 'exit') {
-      this.leaveToGoodbye();
+      this.openModal('confirm-exit-app');
     }
   }
 
@@ -197,29 +201,76 @@ export class Game {
     } else if (id === 'menu') {
       this.openModal('confirm-menu');
     } else if (id === 'exit') {
-      this.leaveToGoodbye();
+      this.openModal('confirm-exit');
     }
   }
 
   handleModalAction(action) {
-    if (action.type !== 'modal') return;
+    if (action.type !== 'modal' || !this.modal) return;
     this.audio.click();
-    if (this.modal?.kind === 'confirm-menu') {
-      if (action.id === 'yes') {
-        this.modal = null;
-        this.goMenu();
-      } else {
-        this.modal = null;
-      }
-    } else if (this.modal?.kind === 'no-moves') {
-      if (action.id === 'shuffle') {
-        this.modal = null;
-        this.useShuffle(true);
-      } else if (action.id === 'menu') {
-        this.modal = null;
-        this.goMenu();
+    if (action.id === 'resume' || action.id === 'cancel') {
+      this.modal = null;
+      return;
+    }
+    if (action.id === 'menu') {
+      this.modal = null;
+      this.goMenu();
+      return;
+    }
+    if (action.id === 'shuffle') {
+      this.modal = null;
+      this.useShuffle(true);
+      return;
+    }
+    if (action.id === 'exit') {
+      this.modal = null;
+      this.requestExit();
+    }
+  }
+
+  toggleHud() {
+    this.renderer.toggleHud();
+    this.hover = null;
+    this.hoverTileId = null;
+  }
+
+  requestExit() {
+    const native = Boolean(window.Capacitor?.isNativePlatform?.());
+    if (native) {
+      const app = window.Capacitor?.Plugins?.App;
+      if (app?.exitApp) {
+        app.exitApp();
+        return;
       }
     }
+    // Navegador: window.close() só funciona para abas abertas por script.
+    try { window.close(); } catch (_) { /* bloqueado */ }
+    setTimeout(() => {
+      if (!document.hidden) {
+        this.showToast('NÃO FOI POSSÍVEL FECHAR. FECHE A ABA DO NAVEGADOR.', 4);
+      }
+    }, 300);
+  }
+
+  handleBack() {
+    if (this.modal) {
+      this.modal = null;
+      this.hover = null;
+      return true;
+    }
+    if (this.screen === 'playing') {
+      this.openModal('confirm-exit');
+      return true;
+    }
+    if (this.screen === 'menu') {
+      this.openModal('confirm-exit-app');
+      return true;
+    }
+    if (this.screen === 'end') {
+      this.goMenu();
+      return true;
+    }
+    return false;
   }
 
   handleTileClick(tile, now) {
@@ -342,8 +393,8 @@ export class Game {
     const geo = this.renderer.getGeometry(this.layout);
     const pa = this.renderer.tileTopLeft(a, geo);
     const pb = this.renderer.tileTopLeft(b, geo);
-    const mx = (pa.x + pb.x) / 2 + TILE_W / 2;
-    const my = (pa.y + pb.y) / 2 + TILE_H / 2;
+    const mx = (pa.x + pb.x) / 2 + this.renderer.tileW / 2;
+    const my = (pa.y + pb.y) / 2 + this.renderer.tileH / 2;
     let text = `+${points}`;
     if (this.combo > 1) text += `  COMBO X${this.combo}`;
     this.floaters.push({
@@ -376,17 +427,19 @@ export class Game {
     if (!tile) return;
     const geo = this.renderer.getGeometry(this.layout);
     const p = this.renderer.tileTopLeft(tile, geo);
+    const tw = this.renderer.tileW;
+    const th = this.renderer.tileH;
     const types = ['fx_stars_a', 'fx_stars_b', 'fx_sparkles', 'fx_shine', 'fx_dust'];
     for (let i = 0; i < 9; i++) {
       const sprite = types[Math.floor(Math.random() * types.length)];
       this.particles.push({
-        x: p.x + TILE_W / 2 + (Math.random() - 0.5) * TILE_W,
-        y: p.y + TILE_H / 2 + (Math.random() - 0.5) * 18,
+        x: p.x + tw / 2 + (Math.random() - 0.5) * tw,
+        y: p.y + th / 2 + (Math.random() - 0.5) * th * 0.3,
         vx: (Math.random() - 0.5) * 35,
         vy: -25 - Math.random() * 45,
         gravity: 15,
         sprite,
-        size: 12 + Math.random() * 16,
+        size: Math.max(8, tw * (0.3 + Math.random() * 0.4)),
         life: 0.55 + Math.random() * 0.55,
         maxLife: 1.1,
       });
@@ -482,7 +535,7 @@ export class Game {
   }
 
   openModal(kind) {
-    if (this.screen !== 'playing') return;
+    if (this.screen !== 'playing' && this.screen !== 'menu') return;
     this.modal = { kind };
     this.hover = null;
     this.hoverTileId = null;
@@ -524,11 +577,13 @@ export class Game {
 
   spawnVictoryStars(now, count = 8) {
     const types = ['fx_stars_a', 'fx_stars_b', 'fx_sparkles', 'fx_shine'];
+    const w = this.renderer.view.w;
+    const h = this.renderer.view.h;
     for (let i = 0; i < count; i++) {
       const sprite = types[Math.floor(Math.random() * types.length)];
       this.particles.push({
-        x: Math.random() * 960,
-        y: -120 + Math.random() * 360,
+        x: Math.random() * w,
+        y: -120 + Math.random() * h * 0.6,
         vx: (Math.random() - 0.5) * 34,
         vy: 70 + Math.random() * 85,
         gravity: 2,
@@ -557,15 +612,6 @@ export class Game {
     this.audio.click();
   }
 
-  leaveToGoodbye() {
-    this.screen = 'goodbye';
-    this.modal = null;
-    this.hover = null;
-    this.hoverTileId = null;
-    this.audio.click();
-    try { window.close(); } catch (_) { /* navegador bloqueia */ }
-  }
-
   toggleMute() {
     this.audioMuted = this.audio.toggleMute();
     this.audio.click();
@@ -578,6 +624,13 @@ export class Game {
 
   keyDown(key) {
     const k = key.toLowerCase();
+    if (this.modal) {
+      if (k === 'escape') {
+        this.modal = null;
+        return true;
+      }
+      return false;
+    }
     if (this.screen === 'menu') {
       if (k === 'enter') this.startGame(this.selectedLayoutId, randSeed());
       else if (k === 'm') this.toggleMute();
@@ -591,22 +644,15 @@ export class Game {
     }
     if (this.screen === 'playing') {
       if (k === 'm') { this.toggleMute(); return true; }
-      if (this.modal) {
-        if (k === 'escape') { this.modal = null; return true; }
-        return false;
-      }
       if (k === 'h') { this.useHint(); return true; }
       if (k === 'u') { this.undo(); return true; }
       if (k === 'r') { this.startGame(this.selectedLayoutId, randSeed()); return true; }
-      if (k === 'escape') { this.openModal('confirm-menu'); return true; }
+      if (k === 'escape') { this.openModal('confirm-exit'); return true; }
       return false;
     }
     if (this.screen === 'end') {
       if (k === 'enter') { this.startGame(this.selectedLayoutId, randSeed()); return true; }
       if (k === 'escape') { this.goMenu(); return true; }
-    }
-    if (this.screen === 'goodbye') {
-      if (k === 'enter' || k === 'escape') { this.goMenu(); return true; }
     }
     return false;
   }
@@ -616,6 +662,7 @@ export class Game {
   // ------------------------------------------------------------------
   update(dt, now) {
     this.now = now;
+    this.pausedByModal = Boolean(this.modal);
     if (this.toast && now > this.toast.end) this.toast = null;
 
     if (this.screen === 'playing') {

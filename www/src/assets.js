@@ -104,25 +104,32 @@ export class Assets {
     return c;
   }
 
-  /** Sprite de peça normalizado (todas têm exatamente TILE_W x TILE_H). */
-  tile(typeId, dark = false) {
-    const key = `${typeId}|${dark ? 'dark' : 'light'}`;
+  /** Sprite de peça em tamanho arbitrário, com cache por tamanho. */
+  tileSized(typeId, dark = false, w = TILE_W, h = TILE_H) {
+    const rw = Math.max(1, Math.round(w));
+    const rh = Math.max(1, Math.round(h));
+    const key = `${typeId}|${dark ? 'dark' : 'light'}|${rw}x${rh}`;
     if (this.tileCache.has(key)) return this.tileCache.get(key);
     const type = TYPE_BY_ID[typeId];
     const fallbackId = type?.sprite || 'tile_char_1';
     const src = this.original(fallbackId);
-    const c = makeCanvas(TILE_W, TILE_H);
+    const c = makeCanvas(rw, rh);
     const ctx = c.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(src, 0, 0, TILE_W, TILE_H);
+    ctx.drawImage(src, 0, 0, rw, rh);
     if (dark) {
       ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = 'rgba(15, 11, 9, 0.30)';
-      ctx.fillRect(0, 0, TILE_W, TILE_H);
+      ctx.fillRect(0, 0, rw, rh);
       ctx.globalCompositeOperation = 'source-over';
     }
     this.tileCache.set(key, c);
     return c;
+  }
+
+  /** Sprite de peça normalizado (TILE_W x TILE_H). */
+  tile(typeId, dark = false) {
+    return this.tileSized(typeId, dark, TILE_W, TILE_H);
   }
 
   tileSpriteName(typeId) {
