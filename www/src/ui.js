@@ -219,11 +219,11 @@ export function getMenuLayout(view) {
 
   const maxH = Math.max(120, footerTop - contentTop);
   const fixedH = descH + toggleH + actionsH + gaps;
-  const gridAvail = Math.max(rows * 64 + rows * labelsH, maxH - fixedH);
+  const gridAvail = Math.max(rows * 44 + rows * labelsH, maxH - fixedH);
   const maxCardH = portrait ? 190 : (view.desktop ? 210 : 150);
   const cardH = clamp(
     Math.floor((gridAvail - rows * labelsH - (rows - 1) * gap) / rows),
-    64,
+    44,
     maxCardH,
   );
   const gridH = rows * cardH + rows * labelsH + (rows - 1) * gap;
