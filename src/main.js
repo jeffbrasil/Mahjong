@@ -88,6 +88,20 @@ function bindInput() {
   document.addEventListener('visibilitychange', () => {
     game.pausedByFocus = document.hidden;
   });
+
+  document.addEventListener('backbutton', (e) => {
+    e.preventDefault();
+    
+    if (game.screen === 'playing') {
+      // Se estiver jogando, abre o modal para confirmar a saída/menu
+      game.openModal('confirm-menu');
+    } else if (game.screen === 'menu') {
+      // Se estiver no menu principal, aciona o fechar app
+      game.leaveToGoodbye();
+    } else {
+      game.goMenu();
+    }
+  }, false);
 }
 
 async function boot() {

@@ -9,11 +9,12 @@ import {
   BOARD_FRAME, BOARD_INNER, HUD, COLORS, TIME_LIMITS,
 } from './config.js';
 import { LAYOUTS, LAYOUT_BY_ID } from './layouts.js';
-import { freeTiles } from './rules.js';
 import {
   MENU, MENU_LAYOUT_BUTTONS, HUD_LAYOUT, HUD_BUTTON_RECTS, MODAL, END, GOODBYE,
 } from './ui.js';
 import { drawText, measureText } from './font.js';
+import { freeTiles, findFreePairs } from './rules.js';
+
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const fmtTime = (s) => {
@@ -584,7 +585,7 @@ export class Renderer {
     });
 
     this.drawCounter(HUD_LAYOUT.counterA, 'PONTOS', game.score, COLORS.gold);
-    this.drawCounter(HUD_LAYOUT.counterB, 'PARES', Math.ceil((game.board.remaining ?? 0) / 2), COLORS.gold);
+    this.drawCounter(HUD_LAYOUT.counterB, 'PARES', findFreePairs(game.board.tiles).length, COLORS.gold);
 
     for (const b of HUD_BUTTON_RECTS) {
       this.drawHudButton(b, game, now);
