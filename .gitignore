@@ -1,0 +1,29 @@
+# Dependências
+node_modules/
+
+# Build Android
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/app/release/
+android/app/debug/
+
+# Credenciais e chaves (NUNCA versionar)
+*.jks
+*.keystore
+keystore.properties
+
+# Backups locais
+backups/
+
+# Sistema / IDE
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
