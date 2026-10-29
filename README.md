@@ -44,11 +44,12 @@ scipy e Node.js. O jogo em si não tem dependências.
 | Som | botão **Som** | `M` |
 | Iniciar no menu | botão **Jogar** | `Enter` |
 
-O canvas tem resolução lógica fixa de **960×540** e é ampliado por escala
-inteira (2×, 3×…). Em janelas menores que a resolução lógica, a página reduz o
-canvas com vizinho mais próximo para caber; em celulares na horizontal a
-experiência fica proporcional. Em retrato, aparece um aviso para girar o
-aparelho.
+O canvas ocupa a tela inteira em pixels CSS e o tabuleiro é calculado a partir
+do espaço disponível: as peças crescem até caber a montagem completa, sem
+cortes, tanto em paisagem quanto em retrato. Em paisagem de celular o painel
+lateral vira uma coluna compacta de ícones e pode ser recolhido; em retrato, a
+pontuação e os pares ficam numa barra fina no topo. As áreas seguras do
+aparelho (`safe-area-inset-*`) são respeitadas.
 
 ## Funcionalidades
 
@@ -170,7 +171,8 @@ total: 90 sprites
 
 ```text
 index.html                 entrada
-style.css                  fundo, canvas nítido, aviso de retrato
+style.css                  fundo, canvas em tela cheia e áreas seguras
+src/view.js                viewport responsivo e preferência do painel
 tools/slice_sprites.py     pipeline de fatiamento
 assets/raw/                folhas originais
 assets/sprites/            um PNG RGBA por sprite
